@@ -19,7 +19,7 @@ exploration on the mini breadboard.
 
 The Explorer Hat Pro is an older, now discontinued, product. I initially tried Raspberry Pi OS 64-bit Bookworm, but I got problems with python installation and sound card for the [examples/drums.py](https://github.com/pimoroni/explorer-hat/blob/master/examples/drums.py). After I downgraded to Legacy Bullseye, 64-bit, Lite, then installation and examples worked as intended.
 
-## Initial circuit
+## KY-021 circuit
 
 I conveniently found someone selling 3d-printed plastic holder with KY-021 Mini reed magnet [for 16 euro on ebay.de](https://www.ebay.de/itm/176451806010).
 The internal circuit is [depicted here](https://win.adrirobot.it/sensori/37_in_1/KY-021-Mini-magnetic-reed-module.htm) 
@@ -27,6 +27,8 @@ The internal circuit is [depicted here](https://win.adrirobot.it/sensori/37_in_1
 ![KY-021 circuit](https://win.adrirobot.it/sensori/37_in_1/KY-021-Mini-magnetic-reed-modules/KY-021_Mini_magnetic_reed_module_circuito.jpg)
 
 In the default configuration with sensor on the left pin, 5V on the middle pin and ground on the right pin, the internal 10k R1 resistor works as pull-up resistor. With no magnet, the reed contact is open, and with the pull-up transistor, we should measure a HIGH/1. With a magnet pulse, the contact closes and a LOW/0 is measured.
+
+### Measuring with PullUp
 
 If we use a Rasperry with a [PullUp/PullDown resistor](https://raspi.tv/2013/rpi-gpio-basics-6-using-inputs-and-outputs-together-with-rpi-gpio-pull-ups-and-pull-downs), we would normally initialize the GPIO input pin with something like `GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)`, to make sure it's initially not in a floating state. If the Pin is in a floating stage, it is susceptible to random electromagnetic radiation or static from you, from any devices near or far and from the environment. Using this command, we use built-in pull-up resistors which can be enabled in software.
 
@@ -59,3 +61,4 @@ changed(pin) # Get initial
 explorerhat.pause()
 ```
 
+### Measuring with PullDown
