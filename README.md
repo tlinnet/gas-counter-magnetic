@@ -62,3 +62,8 @@ explorerhat.pause()
 ```
 
 ### Measuring with PullDown
+
+The idea is later to move to an ESP8266 running on a small battery pack. We will let it be in sleep-mode, and wake it up sending a HIGH signal to a pin.
+If we can get our KY-021 to work with as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
+If we can use this HIGH signal, we could wake the ESP8266 up, connect to wifi and deliver reading to an MQTT Broker like Mosquitto.
+
