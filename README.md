@@ -34,5 +34,29 @@ If we use a Rasperry with a [PullUp/PullDown resistor](https://raspi.tv/2013/rpi
 BUT, when we use the Explorer Hat Pro, Pi's GPIO pin is after the buffer, [input signals will not be pulled up or down by enabling the Pi's onboard pull resistors](https://github.com/pimoroni/explorer-hat/blob/master/documentation/Technical-reference.md#inputs-via-sn74lvc125apwr-5v-tolerant-input-buffer).
 So, we need to build a PullUp resistor ourselves.
 
-![KY-021 circuit raspberry](https://github.com/user-attachments/assets/b19696e4-60b7-41ea-ba9a-f94f836dd4e2)
+![KY-021 circuit raspberry PullUpo](https://github.com/user-attachments/assets/87dbc3f9-97e2-464a-9ef5-7489603170bb)
+
+With the code 
+```python
+#!/usr/bin/env python
+import explorerhat
+
+led = 0
+pin = explorerhat.input.one
+
+def changed(input):
+  state = int(input.read())
+  name  = input.name
+  print("Input: {}={}".format(name,state))
+  if state:
+    explorerhat.light[led].off()
+  else:
+    explorerhat.light[led].on()
+
+pin.changed(changed) # Set callback
+print("Initial: ",end='')
+changed(pin) # Get initial
+
+explorerhat.pause()
+```
 
