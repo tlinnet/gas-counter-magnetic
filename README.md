@@ -138,7 +138,7 @@ Test
 # Try from 1 terminal and listen
 mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 # Publish from other terminal
-mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m “Testing”
+mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m "Testing"
 ```
 
 
