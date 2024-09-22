@@ -103,28 +103,42 @@ I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in
 opkg update
 opkg install mosquitto-ssl
 opkg install mosquitto-client-ssl libmosquitto-ssl
-/etc/init.d/mosquitto enable
-/etc/init.d/mosquitto restart
 
 # Create user gas counter
+chown root:mosquitto /etc/mosquitto
+chmod g+w /etc/mosquitto/
 mosquitto_passwd -c /etc/mosquitto/passwd gasuser
+chown root:mosquitto /etc/mosquitto/passwd
+chmod g+r /etc/mosquitto/passwd
 
 # Edit
 nano /etc/mosquitto/mosquitto.conf
 # Set value
 allow_anonymous false
 password_file /etc/mosquitto/passwd
+listener 1883 0.0.0.0
 persistence true
 persistence_file mosquitto.db
 persistence_location /etc/mosquitto
 
-# Restart
-/etc/init.d/mosquitto restart
-ls /etc/mosquitto/
-grep -v '^#' /etc/mosquitto/mosquitto.conf 
+# Check
+ls -la /etc/mosquitto/
+grep -v '^#' /etc/mosquitto/mosquitto.conf | grep -v -e '^$'
+mosquitto --verbose --config-file /etc/mosquitto/mosquitto.conf 
+# If no errors then break.
 
-# Try
-mosquitto_sub -h slateplus.lan  -t test -u "gasuser" -P "helloworld"
+# Enable, Restart
+/etc/init.d/mosquitto enable
+/etc/init.d/mosquitto restart
+```
+
+Test
+
+```bash
+# Try from 1 terminal and listen
+mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
+# Publish from other terminal
+mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m “Testing”
 ```
 
 
