@@ -67,3 +67,32 @@ The idea is later to move to an ESP8266 running on a small battery pack. We will
 If we can get our KY-021 to work with as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
 If we can use this HIGH signal, we could wake the ESP8266 up, connect to wifi and deliver reading to an MQTT Broker like Mosquitto.
 
+To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 and GND (instead of 5V) and swithc the on/off of led diode in code.
+
+![20240922_233102](https://github.com/user-attachments/assets/4f1dddc0-7e42-49ba-8c1c-337a9bd8513b)
+
+```python
+#!/usr/bin/env python
+import explorerhat
+
+led = 1
+pin = explorerhat.input.one
+
+def changed(input):
+  state = int(input.read())
+  name  = input.name
+  print("Input: {}={}".format(name,state))
+  if state:
+    explorerhat.light[led].on()
+  else:
+    explorerhat.light[led].off()
+
+pin.changed(changed) # Set callback
+print("Initial: ",end='')
+changed(pin) # Get initial
+
+explorerhat.pause()
+```
+
+
+
