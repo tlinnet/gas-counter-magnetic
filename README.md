@@ -5,9 +5,9 @@ I have this gas box from my supplier. It's a GT4 G4 from 2005. It says that one 
 
 ![Screenshot 2024-09-22 at 20 27 04](https://github.com/user-attachments/assets/efbeef47-f8ea-45c7-b602-e2f2553b8e2d)
 
-I thought it could be a funny project to count the gas, and see if our gas consumption is:
+I thought it could be a funny project to count the gas, and see our gas consumption is:
 
-* If usage happens during showering in the morning
+* if usage happens during showering in the morning
 * or usage happens during heating in the night / evening
 
 Plan:
