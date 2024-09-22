@@ -122,6 +122,9 @@ persistence_location /etc/mosquitto
 /etc/init.d/mosquitto restart
 ls /etc/mosquitto/
 grep -v '^#' /etc/mosquitto/mosquitto.conf 
+
+# Try
+mosquitto_sub -h slateplus.lan  -t test -u "gasuser" -P "helloworld"
 ```
 
 
