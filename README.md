@@ -94,5 +94,34 @@ changed(pin) # Get initial
 explorerhat.pause()
 ```
 
+## Collecting data
+
+I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in my office. We will install mosquitto on it.
+
+```bash
+# Install
+opkg update
+opkg install mosquitto-ssl
+opkg install mosquitto-client-ssl libmosquitto-ssl
+/etc/init.d/mosquitto enable
+/etc/init.d/mosquitto restart
+
+# Create user gas counter
+mosquitto_passwd -c /etc/mosquitto/passwd gasuser
+
+# Edit
+nano /etc/mosquitto/mosquitto.conf
+# Set value
+allow_anonymous false
+password_file /etc/mosquitto/passwd
+persistence true
+persistence_file mosquitto.db
+persistence_location /etc/mosquitto
+
+# Restart
+/etc/init.d/mosquitto restart
+ls /etc/mosquitto/
+grep -v '^#' /etc/mosquitto/mosquitto.conf 
+```
 
 
