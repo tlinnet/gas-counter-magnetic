@@ -17,7 +17,7 @@ Plan:
 I have an Raspberry Pi 4B, with the [Explorer Hat Pro](https://learn.pimoroni.com/article/getting-started-with-explorer-hat) from Pimoroni, which we will use for initial circuit
 exploration on the mini breadboard. 
 
-The Explorer Hat Pro is an older, now discontinued, product. I initially tried Raspberry Pi OS 64-bit Bookworm, but I got problems with python installation and sound card for the (examples/drums.py)[https://github.com/pimoroni/explorer-hat/blob/master/examples/drums.py]. After I downgraded to Legacy Bullseye, 64-bit, Lite, then installation and examples worked as intended.
+The Explorer Hat Pro is an older, now discontinued, product. I initially tried Raspberry Pi OS 64-bit Bookworm, but I got problems with python installation and sound card for the [examples/drums.py](https://github.com/pimoroni/explorer-hat/blob/master/examples/drums.py). After I downgraded to Legacy Bullseye, 64-bit, Lite, then installation and examples worked as intended.
 
 ## Initial circuit
 
