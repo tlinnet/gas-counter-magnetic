@@ -23,5 +23,11 @@ The Explorer Hat Pro is an older, now discontinued, product. I initially tried R
 ## Initial circuit
 
 I conveniently found someone selling 3d-printed plastic holder with KY-021 Mini reed magnet [for 16 euro on ebay.de](https://www.ebay.de/itm/176451806010).
+The internal circuit is [depicted here](https://win.adrirobot.it/sensori/37_in_1/KY-021-Mini-magnetic-reed-module.htm) 
 
+![KY-021 circuit](https://win.adrirobot.it/sensori/37_in_1/KY-021-Mini-magnetic-reed-modules/KY-021_Mini_magnetic_reed_module_circuito.jpg)
+
+In the default configuration with sensor on the left pin, 5V on the middle pin and ground on the right pin, the internal 10k R1 resistor works as pull-up resistor. With no magnet, the reed contact is open, and with the pull-up transistor, we should measure a HIGH/1. With a magnet pulse, the contact closes and a LOW/0 is measured.
+
+If we where programming direcly in Rasperry, 
 
