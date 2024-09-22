@@ -14,4 +14,8 @@ Plan:
 * Find a magnetic sensor that picks up the magnetic pulse
 * Collect the pulse and send data somewhere for calculation or viewing
 
-I have an Raspberry Pi 4B, 
+I have an Raspberry Pi 4B, with the (Explorer Hat Pro)[https://learn.pimoroni.com/article/getting-started-with-explorer-hat] from Pimoroni.
+We will use the RPI for the initial. The Explorer Hat Pro is an older, now discontinued, product. 
+
+I initially tried Raspberry Pi OS 64-bit Bookworm, but I got problems with python installation and sound card for the (examples/drums.py)[https://github.com/pimoroni/explorer-hat/blob/master/examples/drums.py].
+So I downgraded to Legacy Bullseye, 64-bit, Lite, and then installation and examples/d
