@@ -152,7 +152,8 @@ sudo apt-get update
 sudo apt-get install mosquitto-clients
 ```
 
-Test publish with [--retain](https://mosquitto.org/man/mosquitto_pub-1.html), as described [here](https://thingsboard.io/docs/mqtt-broker/user-guide/retained-messages/). 
+Test publish with [--retain](https://mosquitto.org/man/mosquitto_pub-1.html).
+In this way, we could use mosquitto as running counter.
 
 ```bash
 # First Publish from other terminal
@@ -162,3 +163,11 @@ mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -r -t test -m "Test
 mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 ```
 
+Try with python script publish
+```bash
+sudo pip install paho-mqtt
+```
+
+```python
+..
+```
