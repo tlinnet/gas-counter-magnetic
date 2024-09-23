@@ -143,7 +143,9 @@ mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m "Testing"
 ```
 
-### mosquitto On Raspberry
+### Install mosquitto client on Raspberry
+
+Install
 
 ```bash
 sudo apt-get update
