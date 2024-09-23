@@ -1,4 +1,4 @@
-# Gas (German GT4) counter via KY-021 Mini reed magnet
+# Gas counter via KY-021 Mini reed magnet
 
 I live in Germany, near Stuttgart.
 I have this gas box from my supplier. It's a GT4 G4 from 2005. It says that one magnetic pulse equals: 1 imp=0,01 m3. The red box is marking a place for putting a magnet for reading the pulses.
@@ -94,7 +94,7 @@ changed(pin) # Get initial
 explorerhat.pause()
 ```
 
-## Collecting data
+## Collecting data via mosquitto
 
 I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in my office. We will install mosquitto on it.
 
@@ -132,7 +132,9 @@ mosquitto --verbose --config-file /etc/mosquitto/mosquitto.conf
 /etc/init.d/mosquitto restart
 ```
 
-Test
+Test. 
+The Access Point is named `slateplus` in luci `system->system->hostname`. Then we can use `slateplus.lan` as hostname to resolve IP.
+
 
 ```bash
 # Try from 1 terminal and listen
@@ -141,4 +143,19 @@ mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m "Testing"
 ```
 
+### mosquitto On Raspberry
+
+```bash
+sudo apt-get update
+sudo apt-get install mosquitto-clients
+```
+
+Test
+
+```bash
+# Try from 1 terminal and listen
+mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
+# Publish from other terminal
+mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m "Testing"
+```
 
