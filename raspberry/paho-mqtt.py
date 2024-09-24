@@ -28,7 +28,7 @@ client.on_connect = on_connect
 client.on_connect_fail = on_connect_fail
 client.on_message = on_message
 client.on_subscribe = on_subscribe
-# Make communication with brooker
+# call `loop()` frequently to maintain network traffic flow with the broker
 client.loop()
 
 if client.is_connected():
@@ -36,5 +36,6 @@ if client.is_connected():
     print("Publishing:", msg)
     client.publish(topic='test',payload=msg, retain=True)
 
-# Stay and listen
+# `loop_forever()` to handle calling `loop()` for you in a blocking function.
+# Listen for traffic
 client.loop_forever()

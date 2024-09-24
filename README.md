@@ -146,7 +146,7 @@ mosquitto_passwd -b /etc/mosquitto/passwd gasread Hello
 Manuel for [`mosquitto_sub`](https://mosquitto.org/man/mosquitto_sub-1.html) and [`mqtt`](https://mosquitto.org/man/mqtt-7.html). Listen with qos and enable enable persistent client mode. With -v, topic is added prepended to message lines.
 
 ```bash
-mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session 
+mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session 
 ```
 
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).

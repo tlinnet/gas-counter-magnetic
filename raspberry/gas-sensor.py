@@ -17,7 +17,7 @@ def changed(input):
         counter += 1
         msg = f"{counter}; {dt.now()}"
         print(msg)
-        # This function must be called regularly to ensure communication with the broker is carried out.
+        # call `loop()` frequently to maintain network traffic flow with the broker
         client.publish(topic=topic,payload=msg, qos=1)
         client.loop()
     else:
@@ -46,7 +46,7 @@ try:
     client.on_connect = on_connect
     client.on_connect_fail = on_connect_fail
     client.on_disconnect = on_disconnect
-    # This function must be called regularly to ensure communication with the broker is carried out.
+    # call `loop()` frequently to maintain network traffic flow with the broker
     client.loop()
 
     explorerhat.pause()
@@ -68,4 +68,5 @@ finally:
     https://github.com/pimoroni/explorer-hat/blob/master/library/explorerhat/__init__.py#L86
     Does also GPIO.cleanup()
     """
+    client.disconnect()
     explorerhat.explorerhat_exit()
