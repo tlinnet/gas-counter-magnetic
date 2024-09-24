@@ -6,10 +6,17 @@ STOP=15
 
 start() {
 echo start
-mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session |
-while read payload; do
-  echo Received $payload | tee -a /root/gas_data.csv
-done
+
+while true  # Keep an infinite loop to reconnect when connection lost/broker unavailable
+do
+    mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session | while read -r payload
+    do
+        # Here is the callback to execute whenever you receive a message:
+        echo "Rx MQTT: ${payload}" | tee -a /root/gas_data.csv
+    done
+    sleep 10  # Wait 10 seconds until reconnection
+done # &  # Discomment the & to run in background (but you should rather run THIS script in background)
+
 }
 
 stop() {

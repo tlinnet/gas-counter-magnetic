@@ -182,6 +182,9 @@ chmod +x /root/recv_mosquitto.sh
 
 # Enable and start
 /etc/init.d/gas_counter enable
+# Check symlink creation 
+ls -la /etc/rc.d/*gas_counter
+# Check it's enabled.
 /etc/init.d/gas_counter enabled && echo on
-/etc/init.d/mosquitto restart
+/etc/init.d/gas_counter restart
 ```
