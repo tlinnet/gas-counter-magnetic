@@ -151,5 +151,4 @@ mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --
 
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
 
-
-
+Try to keep making magnetic pulses, while breaking and connecting again `mosquitto_sub` and see all messages is received.
