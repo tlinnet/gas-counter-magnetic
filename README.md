@@ -139,12 +139,14 @@ On OpenWrt router. Create user for reading and start listing.
 ```bash
 # Create user for reading
 mosquitto_passwd -b /etc/mosquitto/passwd gasread Hello
+# Pickup new password
+/etc/init.d/mosquitto restart
 ```
 
-Manuel for [`mosquitto_sub`](https://mosquitto.org/man/mosquitto_sub-1.html) and [`mqtt`](https://mosquitto.org/man/mqtt-7.html). Listen with qos and enable enable persistent client mode.
-```bash
+Manuel for [`mosquitto_sub`](https://mosquitto.org/man/mosquitto_sub-1.html) and [`mqtt`](https://mosquitto.org/man/mqtt-7.html). Listen with qos and enable enable persistent client mode. With -v, topic is added prepended to message lines.
 
-mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t sensors/gas/# --qos 1 --id "gasread" --disable-clean-session 
+```bash
+mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session 
 ```
 
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).

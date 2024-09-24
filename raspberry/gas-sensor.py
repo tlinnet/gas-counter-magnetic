@@ -5,36 +5,51 @@ from datetime import datetime as dt
 
 led = 1
 pin = explorerhat.input.one
+topic = 'sensors/gas/pulse'
 counter = 0  
 
 def changed(input):
     global counter
     name  = input.name
     state = int(input.read())
-    #print("Input: {}={}".format(name,state))
     if state:
         explorerhat.light[led].on()
         counter += 1
         msg = f"{counter}; {dt.now()}"
         print(msg)
-        client.publish(topic='sensors/gas/pulse',payload=msg, qos=1)
+        # This function must be called regularly to ensure communication with the broker is carried out.
+        client.publish(topic=topic,payload=msg, qos=1)
+        client.loop()
     else:
         explorerhat.light[led].off()
+
+def on_connect(client, userdata, flags, reason_code, properties=None):
+    print("Connection:", reason_code)
+    client.subscribe(topic="test")
+
+def on_connect_fail(client, userdata, flags, reason_code, properties=None):
+    print("Fail Connection:", reason_code)
+
+def on_disconnect(client, userdata, flags, reason_code, properties=None):
+    print(reason_code)
 
 try:
     """
     # Do a try/except/finally to clean up
     # https://raspi.tv/2013/rpi-gpio-basics-3-how-to-exit-gpio-programs-cleanly-avoid-warnings-and-protect-your-pi
     """
-    #pin.changed(changed) # Set callback
+    pin.changed(changed) # Set callback
 
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(username="gasuser", password="helloworld")
-    client.connect(host="slateplus.lan", port=1883 , keepalive=60)
-    #client.publish(topic='sensors/gas/pulse',payload="Test", qos=1)
-    client.publish(topic='sensors/gas/pulse',payload="Test")
+    client.connect(host="slateplus.lan", port=1883, keepalive=60)
+    client.on_connect = on_connect
+    client.on_connect_fail = on_connect_fail
+    client.on_disconnect = on_disconnect
+    # This function must be called regularly to ensure communication with the broker is carried out.
+    client.loop()
 
-    #explorerhat.pause()
+    explorerhat.pause()
 
 except KeyboardInterrupt:  
     """
