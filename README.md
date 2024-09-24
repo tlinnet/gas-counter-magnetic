@@ -62,6 +62,8 @@ I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in
 opkg update
 opkg install mosquitto-ssl
 opkg install mosquitto-client-ssl libmosquitto-ssl
+# Optional, if configuration via click in Luci is preferred.
+# opkg install luci-app-mosquitto
 
 # Make sure mosquitto service can read/write 
 chown root:mosquitto /etc/mosquitto

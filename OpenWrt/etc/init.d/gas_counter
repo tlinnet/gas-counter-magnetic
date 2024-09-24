@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+# https://github.com/tlinnet/gas-counter-magnetic/tree/main
+
+START=95
+STOP=15
+
+start() {
+        echo start
+        # commands to launch application
+}
+
+stop() {
+        echo stop
+        # commands to kill application
+}
