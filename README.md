@@ -67,9 +67,11 @@ opkg install mosquitto-client-ssl libmosquitto-ssl
 chown root:mosquitto /etc/mosquitto
 chmod g+w /etc/mosquitto/
 # Create mosquitto user: gasuser
-mosquitto_passwd -c /etc/mosquitto/passwd gasuser helloworld
-chown root:mosquitto /etc/mosquitto/passwd
-chmod g+r /etc/mosquitto/passwd
+mosquitto_passwd -c /etc/mosquitto/passwd gasuser
+# Give passwword: helloworld
+# Change owner
+chown mosquitto:mosquitto /etc/mosquitto/passwd
+
 
 # Edit configuration file
 nano /etc/mosquitto/mosquitto.conf
@@ -135,7 +137,7 @@ With python code [paho-mqtt.py](https://github.com/tlinnet/gas-counter-magnetic/
 On OpenWrt router. Create user for reading and start listing.
 
 ```bash
-mosquitto_passwd -c /etc/mosquitto/passwd gasread Hello
+mosquitto_passwd -b /etc/mosquitto/passwd gasread Hello
 
 # https://mosquitto.org/man/mosquitto_sub-1.html
 # https://mosquitto.org/man/mqtt-7.html
@@ -143,7 +145,7 @@ mosquitto_passwd -c /etc/mosquitto/passwd gasread Hello
 # Wildcard – Multi Level. Placed last: #
 # Qos : 1: The broker/client will deliver the message at least once, with confirmation required.
 # Disable default clean-session
-mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t gas/# --qos 1 --id "gasread" --disable-clean-session 
+mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t sensors/gas/# --qos 1 --id "gasread" --disable-clean-session 
 ```
 
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
