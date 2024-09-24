@@ -1,7 +1,6 @@
 # Gas counter via KY-021 Mini reed magnet
 
-I live in Germany, near Stuttgart.
-I have this gas box from my supplier. It's a GT4 G4 from 2005. It says that one magnetic pulse equals: 1 imp=0,01 m3. The red box is marking a place for putting a magnet for reading the pulses.
+Near Stuttgart, Germany, the gas box from the supplier is a GT4 G4 from 2005. It says that one magnetic pulse equals: 1 imp=0,01 m3. The red box is marking a place for putting a magnet for reading the pulses.
 
 ![Screenshot 2024-09-22 at 20 27 04](https://github.com/user-attachments/assets/efbeef47-f8ea-45c7-b602-e2f2553b8e2d)
 
@@ -28,7 +27,7 @@ The internal circuit is [depicted here](https://win.adrirobot.it/sensori/37_in_1
 
 In the default configuration with sensor on the left pin, 5V on the middle pin and ground on the right pin, the internal 10k R1 resistor works as pull-up resistor. With no magnet, the reed contact is open, and with the pull-up transistor, we should measure a HIGH/1. With a magnet pulse, the contact closes and a LOW/0 is measured.
 
-### Measuring with PullUp
+### Measuring pulse with PullUp
 
 If we use a Rasperry with a [PullUp/PullDown resistor](https://raspi.tv/2013/rpi-gpio-basics-6-using-inputs-and-outputs-together-with-rpi-gpio-pull-ups-and-pull-downs), we would normally initialize the GPIO input pin with something like `GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)`, to make sure it's initially not in a floating state. If the Pin is in a floating stage, it is susceptible to random electromagnetic radiation or static from you, from any devices near or far and from the environment. Using this command, we use built-in pull-up resistors which can be enabled in software.
 
@@ -37,31 +36,9 @@ So, we need to build a PullUp resistor ourselves.
 
 ![KY-021 circuit raspberry PullUpo](https://github.com/user-attachments/assets/87dbc3f9-97e2-464a-9ef5-7489603170bb)
 
-With the code 
-```python
-#!/usr/bin/env python
-import explorerhat
+With the code [up-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/up-input-event.py) 
 
-led = 0
-pin = explorerhat.input.one
-
-def changed(input):
-  state = int(input.read())
-  name  = input.name
-  print("Input: {}={}".format(name,state))
-  if state:
-    explorerhat.light[led].off()
-  else:
-    explorerhat.light[led].on()
-
-pin.changed(changed) # Set callback
-print("Initial: ",end='')
-changed(pin) # Get initial
-
-explorerhat.pause()
-```
-
-### Measuring with PullDown
+### Measuring pulse with PullDown
 
 The idea is later to move to an ESP8266 running on a small battery pack. We will let it be in sleep-mode, and wake it up sending a HIGH signal to a pin.
 If we can get our KY-021 to work with as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
@@ -71,32 +48,14 @@ To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 
 
 ![20240922_233102](https://github.com/user-attachments/assets/4f1dddc0-7e42-49ba-8c1c-337a9bd8513b)
 
-```python
-#!/usr/bin/env python
-import explorerhat
+With the code [down-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/down-input-event.py) 
 
-led = 1
-pin = explorerhat.input.one
 
-def changed(input):
-  state = int(input.read())
-  name  = input.name
-  print("Input: {}={}".format(name,state))
-  if state:
-    explorerhat.light[led].on()
-  else:
-    explorerhat.light[led].off()
+## Test send and receive data via MQTT message service
 
-pin.changed(changed) # Set callback
-print("Initial: ",end='')
-changed(pin) # Get initial
+I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in my office. We will install mosquitto on it to act as a broker.
 
-explorerhat.pause()
-```
-
-## Collecting data via mosquitto
-
-I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in my office. We will install mosquitto on it.
+### Install mosquitto broker on OpenWrt router 
 
 ```bash
 # Install
@@ -104,16 +63,17 @@ opkg update
 opkg install mosquitto-ssl
 opkg install mosquitto-client-ssl libmosquitto-ssl
 
-# Create user gas counter
+# Make sure mosquitto service can read/write 
 chown root:mosquitto /etc/mosquitto
 chmod g+w /etc/mosquitto/
+# Create mosquitto user: gasuser
 mosquitto_passwd -c /etc/mosquitto/passwd gasuser
 chown root:mosquitto /etc/mosquitto/passwd
 chmod g+r /etc/mosquitto/passwd
 
-# Edit
+# Edit configuration file
 nano /etc/mosquitto/mosquitto.conf
-# Set value
+# Set values
 allow_anonymous false
 password_file /etc/mosquitto/passwd
 listener 1883 0.0.0.0
@@ -132,9 +92,11 @@ mosquitto --verbose --config-file /etc/mosquitto/mosquitto.conf
 /etc/init.d/mosquitto restart
 ```
 
-Test. 
-The Access Point is named `slateplus` in luci `system->system->hostname`. Then we can use `slateplus.lan` as hostname to resolve IP.
+### Test mosquitto message exchange on OpenWrt router
 
+Since, the Access Point is named `slateplus` in luci `system->system->hostname` we can use `slateplus.lan` as hostname.
+
+Login 2x with ssh to the OpenWrt router.
 
 ```bash
 # Try from 1 terminal and listen
@@ -153,7 +115,7 @@ sudo apt-get install mosquitto-clients
 ```
 
 Test publish with [--retain](https://mosquitto.org/man/mosquitto_pub-1.html).
-In this way, we could use mosquitto as running counter.
+When a client is subscribing, it always get retained messages-
 
 ```bash
 # First Publish from other terminal
@@ -163,39 +125,6 @@ mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -r -t test -m "Test
 mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 ```
 
-Try with python script publish
-```bash
-sudo pip install paho-mqtt
-```
+With python code [paho-mqtt.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/paho-mqtt.py), try to publish and watch subscription terminal. The paho python module is installed with: `sudo pip install paho-mqtt`
 
-```python
-#!/usr/bin/env python
-
-import paho.mqtt.client as mqtt
-from datetime import datetime as dt
-
-def on_connect(client, userdata, flags, reason_code, properties=None):
-    client.subscribe(topic="test")
-
-def on_message(client, userdata, message, properties=None):
-    print(
-        f"{dt.now()} Received message {message.payload} on topic '{message.topic}' with QoS {message.qos}"
-    )
-
-def on_subscribe(client, userdata, mid, qos, properties=None):
-    print(f"{dt.now()} Subscribed with QoS {qos}")
-
-client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-
-client.on_connect = on_connect
-client.on_message = on_message
-client.on_subscribe = on_subscribe
-client.username_pw_set(username="gasuser", password="helloworld")
-client.connect(host="slateplus.lan", port=1883 , keepalive=60)
-
-# qos Defaults to 0.
-client.publish(topic='test',payload=f"Testing python {dt.now()}", retain=True)
-
-client.disconnect() # Publish and exit
-# client.loop_forever() # Publish and stay and listen
-```
+## Collecting data via mosquitto
