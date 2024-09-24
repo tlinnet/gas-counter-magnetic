@@ -172,11 +172,15 @@ Try to keep making magnetic pulses, while breaking and connecting again `mosquit
 
 ## init script for OpenWrt
 
-We will make a [script that starts on boot](https://stackoverflow.com/questions/33340659/how-to-auto-start-an-application-in-openwrt) and save to file. The boot script [gas_counter is here](https://github.com/tlinnet/gas-counter-magnetic/blob/main/OpenWrt/etc/init.d/gas_counter).
+We will make a [script that starts on boot](https://stackoverflow.com/questions/33340659/how-to-auto-start-an-application-in-openwrt) and save to file. The boot script [`gas_counter`](https://github.com/tlinnet/gas-counter-magnetic/blob/main/OpenWrt/etc/init.d/gas_counter) and the receive script [`recv_mosquitto.sh`](https://github.com/tlinnet/gas-counter-magnetic/blob/main/OpenWrt/root/recv_mosquitto.sh)
 
 Make sure:
 ```bash
+# Make executable
 chmod +x /etc/init.d/gas_counter
+chmod +x /root/recv_mosquitto.sh
+
+# Enable and start
 /etc/init.d/gas_counter enable
 /etc/init.d/gas_counter enabled && echo on
 /etc/init.d/mosquitto restart

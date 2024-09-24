@@ -7,7 +7,7 @@ STOP=15
 start() {
         echo start
         # commands to launch application
-        mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session  | tee /root/gas_data.csv
+        /root/recv_mosquitto.sh
 }
 
 stop() {
