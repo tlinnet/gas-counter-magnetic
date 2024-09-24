@@ -5,12 +5,13 @@ START=95
 STOP=15
 
 start() {
-        echo start
-        # commands to launch application
-        /root/recv_mosquitto.sh
+echo start
+mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session |
+while read payload; do
+  echo Received $payload | tee -a /root/gas_data.csv
+done
 }
 
 stop() {
-        echo stop
-        # commands to kill application
+echo stop
 }
