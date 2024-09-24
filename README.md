@@ -137,14 +137,13 @@ With python code [paho-mqtt.py](https://github.com/tlinnet/gas-counter-magnetic/
 On OpenWrt router. Create user for reading and start listing.
 
 ```bash
+# Create user for reading
 mosquitto_passwd -b /etc/mosquitto/passwd gasread Hello
+```
 
-# https://mosquitto.org/man/mosquitto_sub-1.html
-# https://mosquitto.org/man/mqtt-7.html
+Manuel for [`mosquitto_sub`](https://mosquitto.org/man/mosquitto_sub-1.html) and [`mqtt`](https://mosquitto.org/man/mqtt-7.html). Listen with qos and enable enable persistent client mode.
+```bash
 
-# Wildcard – Multi Level. Placed last: #
-# Qos : 1: The broker/client will deliver the message at least once, with confirmation required.
-# Disable default clean-session
 mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t sensors/gas/# --qos 1 --id "gasread" --disable-clean-session 
 ```
 
