@@ -25,7 +25,6 @@ def changed(input):
 
 def on_connect(client, userdata, flags, reason_code, properties=None):
     print("Connection:", reason_code)
-    client.subscribe(topic="test")
 
 def on_connect_fail(client, userdata, flags, reason_code, properties=None):
     print("Fail Connection:", reason_code)
