@@ -30,11 +30,13 @@ try:
     client.connect(host="slateplus.lan", port=1883 , keepalive=60)
 
     explorerhat.pause()
+
 except KeyboardInterrupt:  
     """
     Here you put any code you want to run before the program exits when you press CTRL+C  
     """
     print("############\n# break\n###########")
+
 except:  
     """
     This catches ALL other exceptions including errors.  
