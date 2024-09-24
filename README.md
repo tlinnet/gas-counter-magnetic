@@ -67,7 +67,7 @@ opkg install mosquitto-client-ssl libmosquitto-ssl
 chown root:mosquitto /etc/mosquitto
 chmod g+w /etc/mosquitto/
 # Create mosquitto user: gasuser
-mosquitto_passwd -c /etc/mosquitto/passwd gasuser
+mosquitto_passwd -c /etc/mosquitto/passwd gasuser helloworld
 chown root:mosquitto /etc/mosquitto/passwd
 chmod g+r /etc/mosquitto/passwd
 
@@ -105,13 +105,16 @@ mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test -m "Testing"
 ```
 
-### Install mosquitto client on Raspberry
+### Test mosquitto message exchange on Raspberry
 
-Install
+Install mosquitto client on Raspberry
 
 ```bash
+# Bash client
 sudo apt-get update
 sudo apt-get install mosquitto-clients
+# Python module
+sudo pip install paho-mqtt
 ```
 
 Test publish with [--retain](https://mosquitto.org/man/mosquitto_pub-1.html).
@@ -125,6 +128,25 @@ mosquitto_pub -h slateplus.lan  -u "gasuser" -P "helloworld" -r -t test -m "Test
 mosquitto_sub -h slateplus.lan  -u "gasuser" -P "helloworld" -t test
 ```
 
-With python code [paho-mqtt.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/paho-mqtt.py), try to publish and watch subscription terminal. The paho python module is installed with: `sudo pip install paho-mqtt`
+With python code [paho-mqtt.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/paho-mqtt.py), try to publish and watch subscription terminal.
 
 ## Collecting data via mosquitto
+
+On OpenWrt router. Create user for reading and start listing.
+
+```bash
+mosquitto_passwd -c /etc/mosquitto/passwd gasread Hello
+
+# https://mosquitto.org/man/mosquitto_sub-1.html
+# https://mosquitto.org/man/mqtt-7.html
+
+# Wildcard – Multi Level. Placed last: #
+# Qos : 1: The broker/client will deliver the message at least once, with confirmation required.
+# Disable default clean-session
+mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -t gas/# --qos 1 --id "gasread" --disable-clean-session 
+```
+
+On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
+
+
+

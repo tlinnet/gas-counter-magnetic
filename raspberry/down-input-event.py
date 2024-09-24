@@ -9,9 +9,9 @@ def changed(input):
   name  = input.name
   print("Input: {}={}".format(name,state))
   if state:
-    explorerhat.light[0].on()
+    explorerhat.light[led].on()
   else:
-    explorerhat.light[0].off()
+    explorerhat.light[led].off()
 
 pin.changed(changed) # Set callback
 print("Initial: ",end='')
