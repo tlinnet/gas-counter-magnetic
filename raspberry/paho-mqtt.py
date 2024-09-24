@@ -2,7 +2,6 @@
 
 import paho.mqtt.client as mqtt
 from datetime import datetime as dt
-import time
 
 def on_connect(client, userdata, flags, reason_code, properties=None):
     print("Connection:", reason_code)
