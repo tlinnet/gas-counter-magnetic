@@ -15,7 +15,7 @@ do
         echo "Rx MQTT: ${payload}" | tee -a /root/gas_data.csv
     done
     sleep 10  # Wait 10 seconds until reconnection
-done # &  # Discomment the & to run in background (but you should rather run THIS script in background)
+done &  # The last & to run script in background
 
 }
 

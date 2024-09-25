@@ -56,11 +56,11 @@ except KeyboardInterrupt:
     """
     print("############\n# break\n###########")
 
-except:  
-    """
-    This catches ALL other exceptions including errors.  
-    """
-    print("############\n# Other error or exception occurred!#\n############")
+#except:  
+#    """
+#    This catches ALL other exceptions including errors.  
+#    """
+#    print("############\n# Other error or exception occurred!#\n############")
 
 finally:
     """"
