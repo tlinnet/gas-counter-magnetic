@@ -7,17 +7,21 @@ STOP=15
 start() {
 while true  # Keep an infinite loop to reconnect when connection lost/broker unavailable
 do
+    sleep 10  # Wait 10 seconds until reconnection
+    # Update time: -n Run in foreground, -q Quit after clock is set, -p PEER Obtain time from PEER 
+    ntpd -n -q -p openwrt.pool.ntp.org | tee -a /root/gas_data.log
     now=`date +'%Y-%m-%d %I:%M:%S'`
     echo "START mosquitto_sub listening: ${now}" | tee -a /root/gas_data.log
     mosquitto_sub -h slateplus.lan  -u "gasread" -P "Hello" -v -t "sensors/gas/#" --qos 1 --id "gasread" --disable-clean-session | while read msg
     do
         echo "${msg}" >> /root/gas_data.csv
     done
-    sleep 10  # Wait 10 seconds until reconnection
 done &  # The last & to run script in background
 }
 
 stop() {
+    # Update time: -n Run in foreground, -q Quit after clock is set, -p PEER Obtain time from PEER 
+    ntpd -n -q -p openwrt.pool.ntp.org | tee -a /root/gas_data.log
     now=`date +'%Y-%m-%d %I:%M:%S'`
     echo "STOP  mosquitto_sub listening: ${now}" | tee -a /root/gas_data.log
     # Find jobs
