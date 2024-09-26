@@ -228,3 +228,5 @@ python gas-counter-magnetic/raspberry/gas-sensor.py
 ```
 
 And noted down the current consumption: `3345,61`
+
+![20240926_113826](https://github.com/user-attachments/assets/950697cb-e84c-4832-a287-8b0cd1fed698)
