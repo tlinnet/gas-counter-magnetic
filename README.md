@@ -186,8 +186,14 @@ ls -la /etc/rc.d/*gas_counter
 /etc/init.d/gas_counter enabled && echo on
 # Please note, that a "restart" only will do a stop() and not a start() again. The script itself is also killed.
 /etc/init.d/gas_counter start
-# When you confirmed output, send the background
-# https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and
+
+# See log
 cat /root/gas_data.log
-cat /root/gas_data.csv
+```
+
+On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
+
+On OpenWrt, follow data with
+```bash
+tail -f /root/gas_data.csv
 ```
