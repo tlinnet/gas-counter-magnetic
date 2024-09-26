@@ -191,9 +191,14 @@ ls -la /etc/rc.d/*gas_counter
 cat /root/gas_data.log
 ```
 
+## Verify init script for OpenWrt is working
+
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
 
 On OpenWrt, follow data with
 ```bash
 tail -f /root/gas_data.csv
 ```
+
+# Collect initial data
+
