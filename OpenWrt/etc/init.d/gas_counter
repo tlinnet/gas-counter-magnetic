@@ -36,7 +36,15 @@ echo "Killing 'mosquitto_sub' pids: ${pids}" | tee -a /root/gas_data.log
 for pid in $pids; do kill -9 $pid; done
 
 # Find jobs: boot script
+pids=`ps | grep 'gas_counter boot' | grep -v grep | awk '{print $1}'`
+echo "Killing 'gas_counter boot' pids: ${pids}" | tee -a /root/gas_data.log
+for pid in $pids; do kill -9 $pid; done
+
 pids=`ps | grep 'gas_counter start' | grep -v grep | awk '{print $1}'`
 echo "Killing 'gas_counter start' pids: ${pids}" | tee -a /root/gas_data.log
+for pid in $pids; do kill -9 $pid; done
+
+pids=`ps | grep 'gas_counter restart' | grep -v grep | awk '{print $1}'`
+echo "Killing 'gas_counter restart' pids: ${pids}" | tee -a /root/gas_data.log
 for pid in $pids; do kill -9 $pid; done
 }

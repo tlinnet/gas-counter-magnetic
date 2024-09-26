@@ -184,7 +184,8 @@ chmod +x /etc/init.d/gas_counter
 ls -la /etc/rc.d/*gas_counter
 # Check it's enabled.
 /etc/init.d/gas_counter enabled && echo on
-/etc/init.d/gas_counter restart
+# Please note, that a "restart" only will do a stop() and not a start() again. The script itself is also killed.
+/etc/init.d/gas_counter start
 # When you confirmed output, send the background
 # https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and
 cat /root/gas_data.log
