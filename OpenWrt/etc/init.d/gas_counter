@@ -5,11 +5,12 @@ START=95
 STOP=15
 
 start() {
+echo "/etc/init.d/gas_counter start(): sleeping 10s" | tee -a /root/gas_data.log
 sleep 10  # Wait for boot
 # Update time: -n Run in foreground, -q Quit after clock is set, -p PEER Obtain time from PEER 
 ntpd -n -q -p openwrt.pool.ntp.org | tee -a /root/gas_data.log
 now=`date +'%Y-%m-%d %I:%M:%S'`
-echo "/etc/init.d/gas_counter start(): ${now}" | tee -a /root/gas_data.log
+echo "ntpd updated to: ${now}" | tee -a /root/gas_data.log
 
 while true  # Keep an infinite loop to reconnect when connection lost/broker unavailable
 do
@@ -29,13 +30,13 @@ echo "/etc/init.d/gas_counter stop(): ${now}" | tee -a /root/gas_data.log
 
 echo "KILL  mosquitto_sub listening: ${now}" | tee -a /root/gas_data.log
 
-# Find jobs: boot script
-pids=`ps | grep 'gas_counter' | grep -v grep | awk '{print $1}'`
-echo "Killing pids: ${pids}" | tee -a /root/gas_data.log
-for pid in $pids; do kill -9 $pid; done
-
 # Find jobs: mosquitto_sub
 pids=`ps | grep 'mosquitto_sub' | grep -v grep | awk '{print $1}'`
 echo "Killing pids: ${pids}" | tee -a /root/gas_data.log
 for pid in $pids; do kill -9 $pid; done
+
+# Find jobs: boot script
+#pids=`ps | grep 'gas_counter' | grep -v grep | awk '{print $1}'`
+#echo "Killing pids: ${pids}" | tee -a /root/gas_data.log
+#for pid in $pids; do kill -9 $pid; done
 }
