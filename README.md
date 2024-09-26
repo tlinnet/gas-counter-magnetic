@@ -55,10 +55,10 @@ And we test the circuit with the code [up-input-event.py](https://github.com/tli
 ## Measuring pulse with PullDown
 
 The idea is later to move to an ESP8266 running on a small battery pack. We will let it be in sleep-mode, and wake it up sending a HIGH signal to a pin.
-If we can get our KY-021 to work with as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
+If we can get our KY-021 to work as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
 If we can use this HIGH signal, we could wake the ESP8266 up, connect to wifi and deliver reading to an MQTT Broker like Mosquitto.
 
-To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 and GND (instead of 5V) and swithc the on/off of led diode in code.
+To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 and GND (instead of 5V) and switch the on/off of led diode in code.
 
 ![20240922_233102](https://github.com/user-attachments/assets/4f1dddc0-7e42-49ba-8c1c-337a9bd8513b)
 
