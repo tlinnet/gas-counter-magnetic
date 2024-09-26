@@ -39,7 +39,7 @@ The internal circuit is [depicted here](https://win.adrirobot.it/sensori/37_in_1
 
 ![KY-021 circuit](https://win.adrirobot.it/sensori/37_in_1/KY-021-Mini-magnetic-reed-modules/KY-021_Mini_magnetic_reed_module_circuito.jpg)
 
-In the default configuration with sensor on the left pin, 5V on the middle pin and ground on the right pin, the internal 10k R1 resistor works as pull-up resistor. With no magnet, the reed contact is open, and with the pull-up transistor, we should measure a HIGH/1. With a magnet pulse, the contact closes and a LOW/0 is measured.
+In the default configuration with sensor on the left pin, 5V on the middle pin and ground on the right pin, with internal 10k R1 resistor to lower current. With no magnet, the reed contact is open, we should measure a HIGH/1 voltage signal. With a magnet pulse, the contact closes, voltage is grounded and a LOW/0 voltage is measured.
 
 ## Measuring pulse with PullUp
 
