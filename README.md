@@ -187,5 +187,6 @@ ls -la /etc/rc.d/*gas_counter
 /etc/init.d/gas_counter restart
 # When you confirmed output, send the background
 # https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and
+cat /root/gas_data.log
 cat /root/gas_data.csv
 ```
