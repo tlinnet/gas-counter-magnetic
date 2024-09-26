@@ -50,7 +50,7 @@ So, we need to build a PullUp resistor ourselves.
 
 ![KY-021 circuit raspberry PullUpo](https://github.com/user-attachments/assets/87dbc3f9-97e2-464a-9ef5-7489603170bb)
 
-With the code [up-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/up-input-event.py) 
+And we test the circuit with the code [up-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/up-input-event.py) 
 
 ## Measuring pulse with PullDown
 
@@ -62,7 +62,7 @@ To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 
 
 ![20240922_233102](https://github.com/user-attachments/assets/4f1dddc0-7e42-49ba-8c1c-337a9bd8513b)
 
-With the code [down-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/down-input-event.py) 
+And we test the circuit with the code [down-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/down-input-event.py) 
 
 
 # Test send and receive data via MQTT message service
