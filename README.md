@@ -200,6 +200,8 @@ cat /root/gas_data.log
 
 On raspberry, run script [gas-sensor.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/gas-sensor.py).
 
+Make some data with a small magnet.
+
 On OpenWrt, follow data with
 ```bash
 tail -f /root/gas_data.csv
