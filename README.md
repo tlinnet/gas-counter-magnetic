@@ -202,3 +202,24 @@ tail -f /root/gas_data.csv
 
 # Collect initial data
 
+On OpenWrt:
+```bash
+/etc/init.d/gas_counter stop
+rm /root/gas_data.*
+/etc/init.d/gas_counter start
+```
+
+On raspberry:
+```bash
+sudo apt-get update
+sudo apt-get install screen
+screen 
+# To detach this terminal session, press "CTRL + A", release, and then press "D"
+# Attach
+screen -list
+screen -r 1950.pts-1.raspberrypi
+# Start python
+python gas-counter-magnetic/raspberry/gas-sensor.py
+```
+
+And noted down the current consumption: `3345,61`
