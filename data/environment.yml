@@ -1,0 +1,7 @@
+name: gascounter
+
+dependencies:
+  - python=3.12
+  - pandas
+  - ipykernel
+  - matplotlib
