@@ -250,3 +250,14 @@ conda env update --name gascounter --file environment.yml --prune
 conda activate gascounter
 ```
 
+There is many pulses recorded at 6 and 7 in the morning. This makes sense, as the Gasherd is programmed to a "morning" program with warm water.
+
+![image](https://github.com/user-attachments/assets/b52d85f8-e8a0-4d98-b000-e01a1cc2ff8a)
+
+Making a linear regression between observed consumption versus recorded number of pulses give a perfect regression, with fitted parameters:
+* Slope consumption per pulse is: 0.010
+* Initial consumption is: 3345.706
+
+![image](https://github.com/user-attachments/assets/af22eae9-bda5-44c7-b201-c7e1f5bca2ff)
+
+
