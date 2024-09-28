@@ -12,6 +12,7 @@
    * [init script for OpenWrt](#init-script-for-openwrt)
    * [Verify init script for OpenWrt is working](#verify-init-script-for-openwrt-is-working)
 * [Collect initial data](#collect-initial-data)
+   * [Analyse data](#analyse-data)
 
 # Gas counter via KY-021 Mini reed magnet
 Near Stuttgart, Germany, the gas box from the supplier is a GT4 G4 from 2005. It says that one magnetic pulse equals: 1 imp=0,01 m3. The red box is marking a place for putting a magnet for reading the pulses.
@@ -232,4 +233,20 @@ python gas-counter-magnetic/raspberry/gas-sensor.py
 ![20240926_113826](https://github.com/user-attachments/assets/950697cb-e84c-4832-a287-8b0cd1fed698)
 
 I needed to re-adjust the KY-021 board a few millimetersv up, so the reed contact was at the very top line of the blue plastic.
-When this was working, the initial current consumption was: `3345,71`
+When this was working, the initial current consumption was: `3345.71`
+
+## Analyse data
+
+Get and install [miniforge](https://github.com/conda-forge/miniforge?tab=readme-ov-file#miniforge3).
+Install [Visual Studio Code](https://code.visualstudio.com/) and install extensions `python, Jupyter.`
+
+Create environment with miniconda and use [analyse.ipynb](https://github.com/tlinnet/gas-counter-magnetic/blob/main/data/analyse.ipynb)
+
+```bash
+conda env create --file=environment.yml
+# To update from file
+conda activate gascounter
+conda env update --name gascounter --file environment.yml --prune
+conda activate gascounter
+```
+
