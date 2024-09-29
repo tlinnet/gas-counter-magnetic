@@ -33,6 +33,8 @@ which will be used for initial circuit exploration on the mini breadboard.
 
 The Explorer Hat Pro is an older, now discontinued, product. I initially tried Raspberry Pi OS 64-bit Bookworm, but I got problems with python installation and sound card for the [examples/drums.py](https://github.com/pimoroni/explorer-hat/blob/master/examples/drums.py). After I downgraded to Legacy Bullseye, 64-bit, Lite, then installation and examples worked as intended.
 
+After verification, the story is continued with a battery powered NodeMCU.
+
 # KY-021 circuit
 
 I conveniently found someone selling 3d-printed plastic holder with KY-021 Mini reed magnet [for 16 euro on ebay.de](https://www.ebay.de/itm/176451806010).
@@ -44,20 +46,18 @@ In the default configuration with sensor on the left pin, 5V on the middle pin a
 
 ## Measuring pulse with PullUp
 
-If we use a Rasperry with a [PullUp/PullDown resistor](https://raspi.tv/2013/rpi-gpio-basics-6-using-inputs-and-outputs-together-with-rpi-gpio-pull-ups-and-pull-downs), we would normally initialize the GPIO input pin with something like `GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)`, to make sure it's initially not in a floating state. If the Pin is in a floating stage, it is susceptible to random electromagnetic radiation or static from you, from any devices near or far and from the environment. Using this command, we use built-in pull-up resistors which can be enabled in software.
+If we use a Rasperry with a [PullUp/PullDown resistor](https://raspi.tv/2013/rpi-gpio-basics-6-using-inputs-and-outputs-together-with-rpi-gpio-pull-ups-and-pull-downs), we would normally initialize the GPIO input pin with something like `GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)`, to make sure it's initially HIGH and not in a floating state. If the Pin is in a floating stage, it is susceptible to random electromagnetic radiation or static from you, from any devices near or far and from the environment. Using this command, we use built-in pull-up resistors which can be enabled in software.
 
 BUT, when we use the Explorer Hat Pro, Pi's GPIO pin is after the buffer, [input signals will not be pulled up or down by enabling the Pi's onboard pull resistors](https://github.com/pimoroni/explorer-hat/blob/master/documentation/Technical-reference.md#inputs-via-sn74lvc125apwr-5v-tolerant-input-buffer).
 So, we need to build a PullUp resistor ourselves.
 
-![KY-021 circuit raspberry PullUpo](https://github.com/user-attachments/assets/87dbc3f9-97e2-464a-9ef5-7489603170bb)
+![KY-021 circuit raspberry PullUp](https://github.com/user-attachments/assets/87dbc3f9-97e2-464a-9ef5-7489603170bb)
 
 And we test the circuit with the code [up-input-event.py](https://github.com/tlinnet/gas-counter-magnetic/blob/main/raspberry/up-input-event.py) 
 
 ## Measuring pulse with PullDown
 
-The idea is later to move to an ESP8266 running on a small battery pack. We will let it be in sleep-mode, and wake it up sending a HIGH signal to a pin.
-If we can get our KY-021 to work as a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
-If we can use this HIGH signal, we could wake the ESP8266 up, connect to wifi and deliver reading to an MQTT Broker like Mosquitto.
+With a PullDown transistor, we should initially measure a LOW/0. With a magnet pulse, the contact closes and a HIGHT/1 is measured.
 
 To achieve this, switch 5V/GND on the KY-021 pins, make a 10k R between Input 1 and GND (instead of 5V) and switch the on/off of led diode in code.
 
@@ -68,7 +68,8 @@ And we test the circuit with the code [down-input-event.py](https://github.com/t
 
 # Test send and receive data via MQTT message service
 
-I have an GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05 as an Access Point in my office. We will install mosquitto on it to act as a broker.
+We will install mosquitto as a broker on a device/computer that is always on. 
+In this example, a GL.iNet GL-A1300 (Slate Plus) with OpenWrt 23.05.
 
 ## Install mosquitto broker on OpenWrt router 
 
@@ -250,7 +251,8 @@ conda env update --name gascounter --file environment.yml --prune
 conda activate gascounter
 ```
 
-There is many pulses recorded at 6 and 7 in the morning. This makes sense, as the Gasherd is programmed to a "morning" program with warm water.
+There is many pulses recorded at 6 and 7 in the morning. This makes sense, as the Gasherd is programmed to a "morning" program with warm water, starting at 6.
+And any showers around 8.30 after the morning run is keeping the gasherd busy the following hour.
 
 ![image](https://github.com/user-attachments/assets/b52d85f8-e8a0-4d98-b000-e01a1cc2ff8a)
 
