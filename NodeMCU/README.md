@@ -45,5 +45,5 @@ If you try to upload a sketch and get error:
 
 ### Blink code with serial
 
-See code [Blink.ino](/NodeMCU/Blink/Blink.ino)
+See code [Blink.ino](/NodeMCU/Sketches/Blink.ino)
 
