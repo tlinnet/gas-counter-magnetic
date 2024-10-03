@@ -4,9 +4,9 @@ In this example, we used [NodeMCU Lua Amica Module V2](https://www.az-delivery.d
 
 Install [Arduino IDE](https://www.arduino.cc/en/Main/Software), and open Arduino IDE. Install board.
 * `File > Preferences`. Additional URLs field= `https://arduino.esp8266.com/stable/package_esp8266com_index.json`
-* `Tools > Board > Boards Manager`. Search `esp8266`. Install "esp8266 by ESP8266 Community".
+* `Tools > Board > Boards Manager`. Search `esp8266`. Install `esp8266 by ESP8266 Community`.
 
-`NodeMC` has this diagram.
+`NodeMCU` has this diagram.
 
 ![NodeMCU](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2017/10/Slide14-i.jpg?w=785&quality=100&strip=all&ssl=1)
 
@@ -24,26 +24,19 @@ Install [Arduino IDE](https://www.arduino.cc/en/Main/Software), and open Arduino
 * 1 builtin led that is attached to D4/GPIO2. led is active at LOW.
   * Note `Amica` has an additional Led on GPIO16. 
 
-## Blink sketch
+## Prepare for different sketches
 
 Set board and port
 * `Tools > Board > esp8266 > NodeMCU 1.0 (ESP - 12E Module)`
 * `Tools > Port > COM6`
   * Found via Windows `Device Manager` -> `Ports (COM & LPT)` -> `Silicon Labs CP210x USB to UART Bridge (COM3)`
 
-The use the template
-* `File > Examples > 01.Basics -> Blink`
+### Blink code
 
-### Enable flashing/uploading mode
-If you try to upload a sketch and get error: 
-`esptool.FatalError: Failed to connect to ESP8266: Timed out waiting for packet header` . It means that your ESP8266 is not in flashing/uploading mode.
+Skectch is modified version of the template: `File > Examples > 01.Basics -> Blink` and the example in [Amica  manual](https://www.az-delivery.de/products/nodemcu-amica-v2-kostenfreies-e-book)
 
-* Hold-down the FLASH+RST buttons in your ESP8266 development board
-* Press the Upload button in the Arduino IDE to upload your sketch
-* When you see the  `Connecting...` message in your Arduino IDE, release FLASH+RST buttons
-* After that, you should see the "Done uploading" message
+See code [Blink.ino](/NodeMCU/Sketches/Blink/Blink.ino)
 
-### Blink code with serial
+### Sleep
 
-See code [Blink.ino](/NodeMCU/Sketches/Blink.ino)
-
+For the DepSleep after a timed `ESP.deepSleep()`, a `LOW` will be send on GPIO16. So we should not do any `digitalWrite(16, LOW)` for any blinking. Same with GPIO2
